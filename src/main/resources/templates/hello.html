@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="~{head :: head}" />
+<script th:src="@{/js/jquery.js}" ></script>
+<p>
+    <span th:text="${err}"></span>
+</p>
+<form  th:object="${user}">
+账号:<input type="text"    id="name" >
+密码:<input type="text"   id="password">
+     <input type="button" onclick="login()" value="提交"  >
+</form>
+
+<script>
+    function login(){
+        var name = $("#name").val();
+        var password = $("#password").val();
+        alert(name+password);
+        $.ajax({
+            type: "post",
+            url: "/sigin",
+            data:{
+                name:name,
+                password:password
+            },
+            success:function (data) {
+                if(data.msg =="登陆成功" ){
+                    window.location.href="/main";
+                }
+                else{
+                    alert(data.msg);
+                }
+            },
+            error:function () {
+            }
+        })
+    }
+</script>
+<div th:replace="~{foot :: foot}" />
+</body>
+</html>
